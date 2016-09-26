@@ -96,16 +96,12 @@ def main(argv):
         #not sure why but it doesnt want to load my csv
         if (number == 2):
             carData = pandas.read_csv("cardata.csv")
-            print(carData['first'])
-            print(carData['second'])
-            print(carData['third'])
-            print(carData['fourth'])
-            print(carData['fifth'])
-            print(carData['sixth'])
-
-            print(carData['target'])
-            trainData = carData[['first', 'second', 'third', 'fourth', 'fifth', 'sixth']]
-            targetData = carData['target']
+            carData = carData.values
+            trainData, targetData = carData[:, :6], carData[:, 6]
+            #trainData = carData[['first', 'second', 'third', 'fourth', 'fifth', 'sixth']]
+            #print (carData.values)
+            #print (trainData)
+            #targetData = carData['target']
             train_system(trainData, targetData, knn)
 
         if (number == 3):
