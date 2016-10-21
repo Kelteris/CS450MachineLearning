@@ -27,9 +27,9 @@ class NeuralNode:
             score += inputs[i] * self.weights[i]
         score += self.bias * self.weights[len(inputs) + 1]
         if score >= 0:
-            return True
+            return 1
         else:
-            return False
+            return 0
 
 
 class NeuralNetwork:
