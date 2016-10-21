@@ -7,6 +7,7 @@ import random
 import sys
 from sklearn import datasets
 from sklearn.cross_validation import train_test_split as tsp
+from sklearn.preprocessing import StandardScaler
 
 class NeuralNode:
     # A bias node will always be included in the NeuralNode
@@ -57,6 +58,12 @@ class NeuralNetwork:
         return finalResults
 
 
+def normalize(trainData, testData):
+    scaler = StandardScaler().fit(trainData)
+    trainData = scaler.fit_transform(trainData)
+    #testData = scaler.transform(testData)
+    return trainData, testData
+
 
 def get_accuracy(results_of_predict, test_targets):
     value_correct = 0
@@ -99,6 +106,7 @@ def main(argv):
             #random.shuffle(irisData)
             trainData = irisData.data
             targetData = irisData.target
+            normalize(trainData, targetData)
             #train_system(trainData, targetData, nn)
             nn.createNetwork(3, len(trainData))
 
@@ -107,6 +115,7 @@ def main(argv):
             #random.shuffle(diabetesData)
             trainData = diabetesData.data
             targetData = diabetesData.target
+            normalize(trainData, targetData)
             #train_system(trainData, targetData, nn)
             nn.createNetwork(2, len(trainData))
 
