@@ -19,10 +19,12 @@ class NeuralNode:
 
     def neuronScore(self, inputs):
         # append the bias node to the list of inputs
-        inputs.append(self.bias)
+        # inputs.append(self.bias)
+        # inputs.append(-1)
         score = 0.0
-        for i in range(inputs):
+        for i in range(len(inputs)):
             score += inputs[i] * self.weights[i]
+        score += self.bias * self.weights[len(inputs) + 1]
         if score >= 0:
             return True
         else:
@@ -52,7 +54,6 @@ class NeuralNetwork:
                     neuron = self.layers[iCurrentLayer][node]
                     targets.append(neuron.neuronScore(data[numInputs]))
                 finalResults.append(targets)
-            data = finalResults
         return finalResults
 
 
@@ -82,7 +83,7 @@ def train_system(data, target, classifier):
 def main(argv):
 
 
-    inputs = []
+    #inputs = []
     number = 0
 
     nn = NeuralNetwork()
@@ -109,8 +110,8 @@ def main(argv):
             #train_system(trainData, targetData, nn)
             nn.createNetwork(2, len(trainData))
 
-    #predictions = nn.calcTargets(trainData)
-    #print(predictions)
+        testResults = nn.calcTargets(trainData)
+        print(testResults)
 
 
 
