@@ -5,6 +5,8 @@
 ###################################################
 import random
 import sys
+
+import math
 from sklearn import datasets
 from sklearn.cross_validation import train_test_split as tsp
 from sklearn.preprocessing import StandardScaler
@@ -26,33 +28,31 @@ class NeuralNode:
         for i in range(len(inputs)):
             score += inputs[i] * self.weights[i]
         score += self.bias * self.weights[len(inputs) + 1]
-        if score >= 0:
-            return 1
-        else:
-            return 0
-
+        score = 1 / (1 + math.e ** -score)
+        return score
 
 class NeuralNetwork:
     # creating a network that can hold the layers and each node inside them
-    def __init__(self):
+    def __init__(self, numlayers):
+        self.layer = []
         self.layers = []
-
+        self.numlayers = numlayers
     def createNetwork(self, numberOfNeurons, numberOfInputs):
         neurons = []
         for _ in range(numberOfNeurons):
             neurons.append(NeuralNode(numberOfInputs))
-        self.layers.append(neurons)
+        self.layer.append(neurons)
 
     #Kory gave me some pointers on calculating the final result
     def calcTargets(self, data):
 
         finalResults = []
-        for iCurrentLayer in range(len(self.layers)):
+        for iCurrentLayer in range(len(self.layer)):
             for numInputs in range(len(data)):
                 targets = []
-                for node in range(len(self.layers[iCurrentLayer])):
+                for node in range(len(self.layer[iCurrentLayer])):
                     # used a multi dimensional array to hold the nodes with their respective layers
-                    neuron = self.layers[iCurrentLayer][node]
+                    neuron = self.layer[iCurrentLayer][node]
                     targets.append(neuron.neuronScore(data[numInputs]))
                 finalResults.append(targets)
         return finalResults
@@ -92,8 +92,8 @@ def main(argv):
 
     #inputs = []
     number = 0
-
-    nn = NeuralNetwork()
+    number_of_layers = 3
+    nn = NeuralNetwork(number_of_layers)
     while number != 1 or number != 2:
         print ("\nChoose the Data you would like to use\n"
                "To view iris Prediction,       enter 1\n"
